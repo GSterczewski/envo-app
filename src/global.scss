@@ -1,0 +1,22 @@
+$color-white: #fff;
+
+$color-dark--100: #232d3a;
+$color-dark--200: #1f2834;
+
+$color-gray--100: #eff3f6;
+$color-gray--200: #c8cace;
+
+$color-orange--100: #f06449;
+$color-blue--100: #14bdeb;
+$color-green--100: #53dd6c;
+$color-primary: $color-blue--100;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
