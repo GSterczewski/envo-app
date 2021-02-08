@@ -26,7 +26,7 @@
   grid-column: 2/3;
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: $mobile-breakpoint) {
   .wrapper {
     grid-template-rows: auto 1fr 100px;
   }

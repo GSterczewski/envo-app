@@ -1,16 +1,24 @@
+
 import React, { useMemo, useState, useEffect, useContext } from "react";
 import BudgetsList from "views/budgets/components/BudgetsList";
-import { BudgetsContext, BudgetsActionsContext } from "state/BudgetsStore";
+import { StateContext, StateActionsContext } from "state/StateProvider";
+
 export default function BudgetsView(){
     
-  const { budgets } = useContext(BudgetsContext);
-  const { addBudget } = useContext(BudgetsActionsContext);
+  const { budgets } = useContext(StateContext);
+  const { addBudget } = useContext(StateActionsContext);
 
-  const [budgetsToShow, setBudgetsToShow] = useState( budgets.reduce((budgets, currentBudget) => Object.assign(budgets,{[currentBudget.id] : true }), {}));
-  const filteredBudgets = useMemo(()=> budgets.filter(budget => budgetsToShow[budget.id]), [budgets,budgetsToShow]);
+  const [budgetsToShow, setBudgetsToShow] = useState([]);
+  
+  const filteredBudgets = useMemo(()=> budgets && budgets.length ? budgets.filter(budget => budgetsToShow[budget.id]) : [], [budgets,budgetsToShow] );
+
   useEffect(()=>{
-    setBudgetsToShow(budgets.reduce((budgets, currentBudget) => Object.assign(budgets,{[currentBudget.id] : true }), {}))
+    console.log(budgets)
+    if(budgets && budgets.length){
+      setBudgetsToShow(budgets.reduce((budgets, currentBudget) => Object.assign(budgets,{[currentBudget.id] : true }), {}))
+    }
   },[budgets])
+  
   return (
     <>
     <h1>Budgets View</h1>

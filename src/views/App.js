@@ -4,7 +4,7 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import { BudgetsProvider } from "state/BudgetsStore";
+import { StateProvider } from "state/StateProvider";
 import mockServer from "./mirageServer";
 
 import DashboardView from "views/dashboard/DashboardView";
@@ -19,6 +19,7 @@ function App() {
     <div className="App">
       <Router>
       <Layout>
+             <StateProvider>
           <Switch>
             <Route path="/home" exact>
               <DashboardView />
@@ -30,11 +31,10 @@ function App() {
               <h1>Statistics</h1>
             </Route>
            <Route path="/budgets">
-             <BudgetsProvider>
                <BudgetsView/>
-             </BudgetsProvider>
            </Route>
           </Switch>
+             </StateProvider>
       </Layout>
       </Router>
     </div>

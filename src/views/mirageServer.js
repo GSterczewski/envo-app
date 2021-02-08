@@ -41,13 +41,13 @@ export default ({ enviroment = "development" } = {}) => {
       server.create("budget",{
         id: "budget-1",
         category: "cat-2",
-        monthlyLimit:100,
+        amount:100,
         name:"groceries budget"
       })
       server.create("budget",{
         id: "budget-2",
         category: "cat-1",
-        monthlyLimit:240,
+        amount:240,
         name:"home bills"
       })
       server.create("expense",{

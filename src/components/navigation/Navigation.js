@@ -31,9 +31,11 @@ const Navigation = () => {
 ]
 
   return (
+    <aside className={style.sidebar}>
     <nav className={style.links}>
       {links.map(link => (<NavLink key={link.name} to={link.route} className={style.link} activeClassName={style.link_active}>{link.icon}</NavLink>))}
     </nav>
+    </aside>
   )
 }
 

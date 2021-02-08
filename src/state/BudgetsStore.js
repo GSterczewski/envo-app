@@ -1,17 +1,15 @@
-import { useReducer, createContext, useEffect, useState } from "react";
-import services from "services/api/index";
+import { useReducer } from "react";
 
 const LOAD_BUDGETS = "LOAD_BUDGETS";
 const ADD_BUDGET = "ADD_BUDGET";
-const REMOVE_BUDGET = "REMOVE_BUDGET";
-
-
+const DELETE_BUDGET = "DELETE_BUDGET";
+const UPDATE_BUDGET = "UPDATE_BUDGET";
 
 
 const budgetsReducer = (state, action) => {
   switch(action.type){
+
     case LOAD_BUDGETS:
-     
       return {
         ...state,
         budgets : action.payload
@@ -22,7 +20,12 @@ const budgetsReducer = (state, action) => {
         ...state,
         budgets: [...state.budgets, action.payload] 
       }
-      case REMOVE_BUDGET:
+      case UPDATE_BUDGET:
+        return {
+          ...state,
+          budgets: state.budgets.map(budget => budget.id === action.payload.id ? action.payload : budget)
+        }
+      case DELETE_BUDGET:
         return{
           ...state,
           budgets: state.budgets.filter(budget => budget.id !== action.payload)
@@ -47,30 +50,16 @@ export const useBudgetsStore = () =>{
     payload: budgets
   });
 
-  return [ state, { addBudget ,loadBudgets } ] 
+  const deleteBudget = id => dispatch({
+    type: DELETE_BUDGET,
+    payload: id
+  });
+
+  const updateBudget = updatedBudget => dispatch({
+    type: DELETE_BUDGET,
+    payload: updatedBudget
+  });
+
+  return [ state, { addBudget ,loadBudgets, deleteBudget, updateBudget } ] 
 }
 
-export const BudgetsContext = createContext(undefined);
-export const BudgetsActionsContext = createContext(undefined);
-
-export const BudgetsProvider = ({children}) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [state, actions] = useBudgetsStore();
-  
-  useEffect(()=>{
-    services.budgets.getAll(1).then(result => {
-     
-      setIsLoading(false);
-      actions.loadBudgets(result.budgets);
-    })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  if(isLoading) return (<div>app is loading....</div>)
-  return (
-    <BudgetsContext.Provider value={state} >
-      <BudgetsActionsContext.Provider value={actions}>
-      {children}
-      </BudgetsActionsContext.Provider>
-    </BudgetsContext.Provider>    
-  )
-}
